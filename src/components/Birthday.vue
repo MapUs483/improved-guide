@@ -1,5 +1,11 @@
 <template>
   <div class="container" style="position: relative;">
+    <audio ref="audioPlayer" @ended="onSongEnded">
+      <source src="/audio/happy-birthday-357371.mp3" type="audio/mpeg">
+    </audio>
+    <button v-if="showSoundControl" class="sound-btn" @click="toggleSound" :class="{ 'sound-off': !isPlaying }">
+      {{ isPlaying ? '🔊' : '🔇' }}
+    </button>
     <h2 class="typing-title"><span>🎂</span> Happy Birthday <span>🎉</span></h2>
     <p class="msg typing-text"></p>
     <button class="gift-btn" @click="openGift" v-if="!showGift">Mở quà bất ngờ</button>
@@ -29,6 +35,10 @@ const showGift = ref(false)
 const showHeart = ref(false)
 const message = "Chúc mừng sinh nhật người con gái đáng iu nhất trên đời! Anh mong em luôn mạnh khỏe, luôn rạng rỡ và hạnh phúc. Anh sẽ luôn cố gắng để mang đến cho em những điều bất ngờ nhất!"
 const title = "🎂 Happy Birthday 🎉"
+
+const audioPlayer = ref(null)
+const isPlaying = ref(false)
+const showSoundControl = ref(false)
 
 // Danh sách ảnh mẫu (bạn thay link ảnh thật vào đây)
 const images = [
@@ -98,7 +108,34 @@ function openGift() {
   }, 600) // Đợi hiệu ứng mở quà xong mới hiện ảnh
 }
 
+function onSongEnded() {
+  showSoundControl.value = true
+  isPlaying.value = false
+}
+
+function toggleSound() {
+  if (isPlaying.value) {
+    audioPlayer.value.pause()
+  } else {
+    audioPlayer.value.currentTime = 0 // Reset về đầu bài hát
+    audioPlayer.value.play().catch(error => {
+      console.log('Không thể phát nhạc:', error)
+    })
+  }
+  isPlaying.value = !isPlaying.value
+}
+
 onMounted(() => {
+  // Phát nhạc một lần khi component được mount
+  audioPlayer.value.play()
+    .then(() => {
+      isPlaying.value = true
+    })
+    .catch(error => {
+      console.log('Không thể phát nhạc tự động:', error)
+      showSoundControl.value = true // Hiện nút điều khiển nếu không phát được
+    })
+  
   // Animation cho tiêu đề
   const titleElement = document.querySelector('.typing-title')
   let titleIndex = 0
@@ -340,5 +377,52 @@ h1 {
   40% { transform: translate(-50%, -50%) rotate(-2deg) scale(1.1); }
   60% { transform: translate(-50%, -50%) rotate(2deg) scale(1.13); }
   80% { transform: translate(-50%, -50%) rotate(-2deg) scale(1.09); }
+}
+
+.sound-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 192, 203, 0.8);
+  border: 2px solid #ff69b4;
+  color: #d63384;
+  font-size: 1.2em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(214, 51, 132, 0.2);
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.sound-btn:hover {
+  transform: scale(1.1);
+  background: rgba(255, 192, 203, 0.95);
+}
+
+.sound-btn.sound-off {
+  background: rgba(255, 255, 255, 0.8);
+  color: #999;
+  border-color: #ccc;
+}
+
+@media (max-width: 414px) {
+  .sound-btn {
+    top: 10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    font-size: 1.1em;
+  }
 }
 </style> 
