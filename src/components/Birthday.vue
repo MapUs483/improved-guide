@@ -3,6 +3,9 @@
     <audio ref="audioPlayer" @ended="onSongEnded">
       <source src="/audio/happy-birthday-357371.mp3" type="audio/mpeg">
     </audio>
+    <button v-if="showPlayPrompt" class="play-prompt-btn" @click="playMusic">
+      Bấm để nghe nhạc chúc mừng! 🎵
+    </button>
     <button v-if="showSoundControl" class="sound-btn" @click="toggleSound" :class="{ 'sound-off': !isPlaying }">
       {{ isPlaying ? '🔊' : '🔇' }}
     </button>
@@ -39,6 +42,7 @@ const title = "🎂 Happy Birthday 🎉"
 const audioPlayer = ref(null)
 const isPlaying = ref(false)
 const showSoundControl = ref(false)
+const showPlayPrompt = ref(false)
 
 // Danh sách ảnh mẫu (bạn thay link ảnh thật vào đây)
 const images = [
@@ -125,15 +129,20 @@ function toggleSound() {
   isPlaying.value = !isPlaying.value
 }
 
+function playMusic() {
+  audioPlayer.value.play().then(() => {
+    isPlaying.value = true
+    showPlayPrompt.value = false
+  })
+}
+
 onMounted(() => {
-  // Phát nhạc một lần khi component được mount
   audioPlayer.value.play()
     .then(() => {
       isPlaying.value = true
     })
-    .catch(error => {
-      console.log('Không thể phát nhạc tự động:', error)
-      showSoundControl.value = true // Hiện nút điều khiển nếu không phát được
+    .catch(() => {
+      showPlayPrompt.value = true
     })
   
   // Animation cho tiêu đề
@@ -424,5 +433,22 @@ h1 {
     height: 36px;
     font-size: 1.1em;
   }
+}
+
+.play-prompt-btn {
+  position: fixed;
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  font-size: 1.3em;
+  padding: 18px 32px;
+  background: #ff69b4;
+  color: white;
+  border: none;
+  border-radius: 18px;
+  z-index: 2000;
+  box-shadow: 0 2px 8px rgba(214, 51, 132, 0.2);
+  cursor: pointer;
+  animation: fadeIn 0.5s;
 }
 </style> 
