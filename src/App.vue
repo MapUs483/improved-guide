@@ -2,12 +2,24 @@
 import { ref } from 'vue'
 import PasswordInput from './components/PasswordInput.vue'
 import Birthday from './components/Birthday.vue'
+import Index from './components/index.vue'
 
+const currentPage = ref('index')
 const isCorrect = ref(false)
+
+const handleNext = () => {
+  currentPage.value = 'password'
+}
+
+const handleSuccess = () => {
+  isCorrect.value = true
+  currentPage.value = 'birthday'
+}
 </script>
 
 <template>
-  <PasswordInput v-if="!isCorrect" @success="isCorrect = true" />
+  <Index v-if="currentPage === 'index'" @next="handleNext" />
+  <PasswordInput v-else-if="currentPage === 'password'" @success="handleSuccess" />
   <Birthday v-else />
 </template>
 
