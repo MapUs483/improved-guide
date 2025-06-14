@@ -8,7 +8,7 @@
           <img :src="image" class="d-block w-100 carousel-img" :alt="`Slide ${index + 1}`" @error="(e) => e.target.src = '/image/Untitled.png'">
           <div v-if="index === images.length - 1" class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
             <button class="start-btn" @click="emit('next')">
-              Bắt đầu ngay
+              Nhấn Đây nè^^
             </button>
           </div>
         </div>

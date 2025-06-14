@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import PasswordInput from './components/PasswordInput.vue'
 import Birthday from './components/Birthday.vue'
 import Index from './components/index.vue'
+import FallingIcons from './components/FallingIcons.vue'
 
 const currentPage = ref('index')
 const isCorrect = ref(false)
@@ -18,6 +19,7 @@ const handleSuccess = () => {
 </script>
 
 <template>
+  <FallingIcons v-if="isCorrect" />
   <Index v-if="currentPage === 'index'" @next="handleNext" />
   <PasswordInput v-else-if="currentPage === 'password'" @success="handleSuccess" />
   <Birthday v-else />

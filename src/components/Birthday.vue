@@ -36,7 +36,7 @@ import { ref, onMounted } from 'vue'
 
 const showGift = ref(false)
 const showHeart = ref(false)
-const message = "Chúc mừng sinh nhật người con gái đáng iu nhất trên đời! Anh mong em luôn mạnh khỏe, luôn rạng rỡ và hạnh phúc. Anh sẽ luôn cố gắng để mang đến cho em những điều bất ngờ nhất!"
+const message = "Chúc mừng sinh nhật người bạn nhỏ đáng iu nhất trên đời! Anh mong em luôn mạnh khỏe, luôn rạng rỡ và hạnh phúc. Anh hy vọng mặt trời nhỏ cười nhiều hơn vì em cười đẹp lắm lun ý hehehe!. Anh muốn chúc nhìu nhìu nhìu mờ hổng biết nói sao cho hết kaka thui thì chúc bạn nhỏ tất cả mong mọi điều tốt đẹp sẽ đến với em!!!!"
 const title = "🎂 Happy Birthday 🎉"
 
 const audioPlayer = ref(null)

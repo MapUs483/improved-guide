@@ -9,7 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tsparticles/slim": "^3.8.1",
+    "@tsparticles/vue3": "^3.0.1",
     "bootstrap": "^5.3.6",
+    "canvas-confetti": "^1.9.3",
+    "tsparticles": "^3.8.1",
     "vue": "^3.5.13"
   },
   "devDependencies": {
